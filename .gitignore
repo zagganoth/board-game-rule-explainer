@@ -1,2 +1,2 @@
-rulebooks/**
-__pycache__/**
+backend/rulebooks/**
+backend/__pycache__/**
