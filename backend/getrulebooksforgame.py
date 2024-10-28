@@ -1,9 +1,18 @@
 from http.client import HTTPException
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 import requests
 import re
 import os
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 def is_downloadable(url):
     h = requests.head(url, allow_redirects=True)
@@ -15,7 +24,21 @@ def is_downloadable(url):
         return False
     return True
 
-@app.get("/{search_query}")
+@app.get("/list/{search_query}")
+async def root(search_query: str):
+    print("search_query is", search_query)
+    if(search_query is None or len(search_query) == 0):
+        raise HTTPException("Bad input")
+    request = requests.get('https://en.1jour-1jeu.com/rules/search?q='+search_query)
+    text = request.text
+    matches = re.findall(r'<a class="dark-link" href="(https://cdn[^"]*?pdf)".*?>(.*?)</a>', text)
+    retList = []
+    for obj in matches:
+        retList.append(obj[1])
+    print(retList)
+    return {'message': retList}
+
+@app.get("/download/{search_query}")
 async def root(search_query: str):
     print("search_query is", search_query)
     if(search_query is None or len(search_query) == 0):
