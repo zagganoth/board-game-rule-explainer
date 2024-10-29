@@ -31,12 +31,12 @@ async def root(search_query: str):
         raise HTTPException("Bad input")
     request = requests.get('https://en.1jour-1jeu.com/rules/search?q='+search_query)
     text = request.text
-    matches = re.findall(r'<a class="dark-link" href="(https://cdn[^"]*?pdf)".*?>(.*?)</a>', text)
-    retList = []
+    matches = re.findall(r'<a class="dark-link" href="(https://cdn[^"]*?pdf)".*?>(.*?)</a>.*?<p class="dark-mixed mb-1">(.*?)</p>', text)
+    retDict = {}
     for obj in matches:
-        retList.append(obj[1])
-    print(retList)
-    return {'message': retList}
+        retDict[obj[1]] = obj[2]
+    print(retDict)
+    return {'message': retDict}
 
 @app.get("/download/{search_query}")
 async def root(search_query: str):

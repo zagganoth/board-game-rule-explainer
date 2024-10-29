@@ -2,7 +2,7 @@ import SearchParent from './components/SearchParent';
 
 export default function Home() {
   return (
-    <main>
+    <main className='h-screen w-screen'>
       <SearchParent />
     </main>
   );

@@ -1,33 +1,32 @@
 'use client';
-import React from 'react';
-import { createContext, useContext, useState } from 'react';
-import { Searchbar, SearchResults } from './Searchbar';
-import BoardGameCard from './BoardGameCard';
-import BoardGameCardGrid from './BoardGameCardGrid';
+import React, { createContext } from 'react';
+import { Searchbar } from './SearchbarHome';
+import { BackgroundBeams } from '@/components/ui/background-beams';
 
 interface SearchContextType {
-  searchResults: string[];
+  searchResults: { [key: string]: string };
 }
 const SearchContext = createContext<SearchContextType>({
-  searchResults: [],
+  searchResults: {},
 });
-export default function SearchParent(props: {
-  searchParams?: {
-    query?: string;
-    page?: string;
-  };
-}) {
-  const [searchResults, setSearchResults] = useState<string[]>([]);
-  const handleSearchResults = (results: string[]) => {
-    setSearchResults(results);
-  };
-  const searchParams = props.searchParams;
-  const query = searchParams?.query;
-  const currentPage = searchParams?.page;
+export default function SearchParent() {
   return (
-    <SearchContext.Provider value={{ searchResults }}>
-      <Searchbar onResultsChange={handleSearchResults} />
-      <BoardGameCardGrid games={searchResults} />
-    </SearchContext.Provider>
+    <div className="h-screen w-screen m-0 p-0 bg-neutral-950 relative flex flex-col items-center justify-center antialiased">
+      <div>
+        <h1 className="relative z-10 text-lg md:text-7xl  bg-clip-text text-transparent bg-gradient-to-b from-neutral-200 to-neutral-600  text-center font-sans font-bold">
+          Search the internet
+        </h1>
+        <p></p>
+        <p className="text-neutral-500 max-w-lg mx-auto my-2 text-sm text-center relative z-10">
+          Welcome to Board Game Wizard, the best board game teacher on the web.
+          We provide reliable ways for you to get setup learning board games.
+          Whether you&apos;re setting up for the first time or just need a
+          refresher on the rules, or finer details, we've got you covered.
+        </p>
+        <Searchbar />
+        <br />
+      </div>
+      <BackgroundBeams />
+    </div>
   );
 }
