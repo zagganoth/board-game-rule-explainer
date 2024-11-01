@@ -10,7 +10,7 @@ const BoardGameCardGrid = (props: { games: { [key: string]: string } }) => {
   const cards: CardType[] = [];
   Object.keys(props.games).forEach((gameName: string, index: number) => {
     cards.push({
-      src: '/boardgamedefault.png',
+      src: `/chat?title=${gameName}&description=${props.games[gameName]}`,
       title: gameName,
       description: props.games[gameName]
     });
