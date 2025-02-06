@@ -10,7 +10,7 @@ export async function Header() {
     <header className="sticky top-0 z-50 flex items-center justify-between w-full h-16 px-4 border-b shrink-0 bg-white ">  
       <EnvCard />
       <Link href="/chat" rel="nofollow" className="mr-2 font-bold">
-        Next.js AI Lite
+        Board Game Rule Explainer AI chat
       </Link>
       <IconSeparator />
 
