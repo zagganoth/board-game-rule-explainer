@@ -2,7 +2,7 @@
 
 import { Card } from "@/components/ui/card"
 import { type CoreMessage } from 'ai';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { continueTextConversation } from '@/app/chat/actions';
 import { readStreamableValue } from 'ai/rsc';
 import { Input } from '@/components/ui/input';
@@ -11,6 +11,10 @@ import { IconArrowUp } from '@/components/ui/icons';
 import  Link from "next/link";
 import AboutCard from "@/components/cards/aboutcard";
 export const maxDuration = 30;
+import io from 'Socket.IO-client';
+
+let socket
+
 
 export default function Chat(props: {title: string, description: string}) {
   const [messages, setMessages] = useState<CoreMessage[]>([]);
@@ -35,6 +39,18 @@ export default function Chat(props: {title: string, description: string}) {
       ]);
     }
   }
+  useEffect(() => socketInitializer(), []);
+
+  const socketInitializer = async () => {
+    await fetch('/api/socket')
+    socket = io()
+
+    socket.on('connect', () => {
+      console.log('connected')
+    })
+  }
+
+  return null
   
   return (    
     <div className="group w-full overflow-auto ">

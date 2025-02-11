@@ -7,9 +7,8 @@ import { groq } from '@ai-sdk/groq';
 import { Weather } from '@/components/weather';
 import { generateText } from 'ai';
 import { createStreamableUI } from 'ai/rsc';
-import { ReactNode } from 'react';
+import { ReactNode, useEffect } from 'react';
 import { z } from 'zod';
-
 export interface Message {
   role: 'user' | 'assistant';
   content: string;
@@ -19,6 +18,7 @@ export interface Message {
 
 // Streaming Chat 
 export async function continueTextConversation(messages: CoreMessage[]) {
+  
   const result = await streamText({
     model: groq('llama-3.1-8b-instant'),
     messages,
